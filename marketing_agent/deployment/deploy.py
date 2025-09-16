@@ -15,7 +15,7 @@
 import vertexai
 from vertexai import agent_engines
 from vertexai.preview.reasoning_engines import AdkApp
-from rag.agent import root_agent
+from agent.agent import root_agent
 import logging
 import os
 from dotenv import set_key
@@ -55,7 +55,7 @@ logging.debug("deploying agent to agent engine:")
 remote_app = agent_engines.create(
     app,
     requirements=[
-        "google-cloud-aiplatform[adk,agent-engines]==1.88.0",
+        "google-cloud-aiplatform[adk,agent-engines]>=1.88.0",
         "google-adk",
         "python-dotenv",
         "google-auth",
@@ -64,7 +64,7 @@ remote_app = agent_engines.create(
         "llama-index",
     ],
     extra_packages=[
-        "./rag",
+        "./agent",
     ],
 )
 

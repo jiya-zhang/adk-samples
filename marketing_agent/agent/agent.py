@@ -15,18 +15,20 @@
 import os
 
 from google.adk.agents import Agent
+from google.adk.tools.agent_tool import AgentTool
 from google.adk.tools.retrieval.vertex_ai_rag_retrieval import VertexAiRagRetrieval
 from vertexai.preview import rag
+from datetime import date
 
 from dotenv import load_dotenv
-from .prompts import return_instructions_root
+from .prompts import return_instructions_root, return_email_instructions
 
 load_dotenv()
 
 ask_vertex_retrieval = VertexAiRagRetrieval(
     name='retrieve_rag_documentation',
     description=(
-        'Use this tool to retrieve documentation and reference materials for the question from the RAG corpus,'
+        'Use this tool to retrieve event calendar and event details for the question'
     ),
     rag_resources=[
         rag.RagResource(
@@ -40,11 +42,28 @@ ask_vertex_retrieval = VertexAiRagRetrieval(
     vector_distance_threshold=0.6,
 )
 
+def get_today_date():
+    """
+    Retrieves today's date in YYYY-MM-DD format.
+    """
+    return {"today_date": date.today().isoformat()}
+
+email_agent = Agent(
+    model='gemini-2.5-flash',
+    name='draft_email_agent',
+    instruction=return_email_instructions(),
+    tools=[
+        ask_vertex_retrieval
+    ]
+)
+
 root_agent = Agent(
     model='gemini-2.5-flash',
     name='ask_rag_agent',
     instruction=return_instructions_root(),
     tools=[
+        get_today_date,
         ask_vertex_retrieval,
+        AgentTool(agent=email_agent),
     ]
 )
