@@ -21,7 +21,7 @@ from vertexai.preview import rag
 from datetime import date
 
 from dotenv import load_dotenv
-from .prompts import return_instructions_root, return_email_instructions
+from .prompts import return_instructions_root
 
 load_dotenv()
 
@@ -48,14 +48,6 @@ def get_today_date():
     """
     return {"today_date": date.today().isoformat()}
 
-email_agent = Agent(
-    model='gemini-2.5-flash',
-    name='draft_email_agent',
-    instruction=return_email_instructions(),
-    tools=[
-        ask_vertex_retrieval
-    ]
-)
 
 root_agent = Agent(
     model='gemini-2.5-flash',
@@ -63,7 +55,6 @@ root_agent = Agent(
     instruction=return_instructions_root(),
     tools=[
         get_today_date,
-        ask_vertex_retrieval,
-        AgentTool(agent=email_agent),
+        ask_vertex_retrieval
     ]
 )

@@ -18,19 +18,6 @@ This module defines functions that return instruction prompts for the root agent
 These instructions guide the agent's behavior, workflow, and tool usage.
 """
 
-def return_email_instructions() -> str:
-    draft_email_instructions_v1 = """
-        You are an Agent that specializes in drafting emails.
-        Your role is to return a draft email that invites a customer to an upcoming
-        event.
-
-        You have access to a corpus of documents that include event details and
-        example emails. If an example email is available for the selected event,
-        make the email as personal and warm as possible, and respond to the user.
-        If no example email is available, draft a brief email to invite the customer
-        to the selected event and explain how the event might help the customer.
-        """
-    return draft_email_instructions_v1
 
 def return_instructions_root() -> str:
 
@@ -49,14 +36,15 @@ def return_instructions_root() -> str:
         If the customer is at the Bay Area in California, make sure to include your search for
         events in nearby areas, including San Francisco, Sunnyvale, Palo Alto, etc.
         3) Gather today's date using get_today_date tool.
-        4) Search your corpus of documents and list the top 3 upcoming events that are most relevant to
+        4) Search your corpus of documents and list the top 5 upcoming events that are most relevant to
         the user's customer. The event should be located in the same location as the customer.
         The event should fit the customer's role (optional), for example, executive events for
         executives from the customer. The event's time should be within the timeframe that user specified,
         and if the user didn't specify a timeframe, use a default of 2 months. For example,
         if today is March 1, search for events from March 1 to May 1 (2 months horizon). Make sure
-        to ask the user if they'd like to choose an event from the list and get an invitation email
-        5) Use the draft_email_agent tool to draft an email and paste the email to the user.
+        to ask the user if they'd like to choose an event from the list and get a draft invitation email
+        5) Draft an email to invite the customer to the selected event. If you don't have all the
+        information, simply use a placeholder, such as "<customer_name>"
 
         Citation Format Instructions:
 
