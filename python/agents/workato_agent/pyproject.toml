@@ -1,0 +1,17 @@
+[project]
+name = "workato_agent"
+version = "0.1.0"
+description = "Sequential agent that performs audit and connects to MCP Server"
+authors = [
+    { name = "Maggie", email = "maggiejz@google.com" }
+]
+license = { text = "Apache License 2.0" }
+requires-python = ">=3.11,<3.13"
+
+dependencies = [
+    "google-cloud-aiplatform[adk,agent-engines]>=1.108.0",
+    "google-adk>=1.27.4",
+    "python-dotenv>=1.0.1",
+    "google-cloud-secret-manager>=2.21.0",
+    "google-cloud-firestore>=2.17.2",
+]
