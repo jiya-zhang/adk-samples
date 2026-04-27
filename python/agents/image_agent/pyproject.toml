@@ -1,0 +1,11 @@
+[project]
+name = "image-agent"
+version = "0.1.0"
+description = "An agent that uses Nano Banana to generate images and stores them in context."
+requires-python = ">=3.11"
+dependencies = [
+    "google-adk>=1.28.0",
+    "google-genai>=0.1.0",
+    "google-auth>=2.49.1",
+    "python-dotenv>=1.2.2",
+]
