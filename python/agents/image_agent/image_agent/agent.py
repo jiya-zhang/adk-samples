@@ -55,7 +55,7 @@ async def generate_image(prompt: str, tool_context: ToolContext) -> str:
         version = await tool_context.save_artifact(
             filename=filename, artifact=image_artifact
         )
-        
+
         # Store the latest filename in state for other tools to access
         tool_context.state["latest_image_filename"] = filename
 
@@ -75,7 +75,7 @@ async def upload_image(folder_id: str, tool_context: ToolContext) -> str:
     try:
         # Get the latest image filename from state
         filename = tool_context.state.get("latest_image_filename", "generated_image.png")
-        
+
         # Read the image from the agent's session artifact
         image_artifact = await tool_context.load_artifact(filename)
         if not image_artifact:
@@ -127,7 +127,12 @@ async def upload_image(folder_id: str, tool_context: ToolContext) -> str:
             'parents': [folder_id]
         }
         media = MediaIoBaseUpload(io.BytesIO(image_data), mimetype=mime_type)
-        drive_file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        drive_file = service.files().create(
+            body=file_metadata,
+            media_body=media,
+            fields='id',
+            supportsAllDrives=True
+        ).execute()
         file_id = drive_file.get('id')
 
         return f"Success: Image uploaded to Google Drive: '{file_id}'"
