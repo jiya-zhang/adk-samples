@@ -34,6 +34,7 @@ def deploy_agent(project_id: str, staging_bucket: str = None, location: str = "u
         "google-genai>=0.1.0",
         "google-auth>=2.49.1",
         "python-dotenv>=1.2.2",
+        "pillow>=12.2.0",
     ]
 
     adk_app = AdkApp(
